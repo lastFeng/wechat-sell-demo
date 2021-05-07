@@ -25,7 +25,7 @@ public class JsonMapper {
     private ObjectMapper mapper;
 
     public JsonMapper() {
-        this(null);
+        this(JsonInclude.Include.NON_NULL);
     }
 
     public JsonMapper(JsonInclude.Include include) {
