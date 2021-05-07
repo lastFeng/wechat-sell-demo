@@ -1,5 +1,6 @@
 package com.example.wechatselldemo.domain;
 
+import com.example.wechatselldemo.enums.ProductStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -39,7 +40,7 @@ public class ProductInfo {
 
     /*** 商品状态 */
     @Column(columnDefinition = "tinyint(3)")
-    private Integer productStatus;
+    private Integer productStatus = ProductStatusEnum.UP.getStatus();
 
     /** 类目编号 */
     private Integer productType;

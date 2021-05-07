@@ -1,5 +1,7 @@
 package com.example.wechatselldemo.domain;
 
+import com.example.wechatselldemo.enums.OrderStatusEnum;
+import com.example.wechatselldemo.enums.PayStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -38,11 +40,11 @@ public class OrderMaster {
 
     /** 订单状态 */
     @Column(columnDefinition = "tinyint(3)")
-    private Integer orderStatus;
+    private Integer orderStatus = OrderStatusEnum.NEW.getStatus();
 
     /** 支付状态 */
     @Column(columnDefinition = "tinyint(3)")
-    private Integer payStatus;
+    private Integer payStatus = PayStatusEnum.WAIT.getStatus();
 
     /** 创建时间 */
     private transient Date createTime;
