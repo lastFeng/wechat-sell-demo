@@ -1,4 +1,4 @@
-package com.example.wechatselldemo.domain.vo;
+package com.example.wechatselldemo.domain.vo.product;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
