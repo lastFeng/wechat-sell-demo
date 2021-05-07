@@ -33,13 +33,14 @@ class ProductCategoryRepositoryTest {
     @Test
     @Order(2)
     public void testSelectOne() {
-        Optional<ProductCategory> byId = productCategoryRepository.findById(1);
-        Assertions.assertNotNull(byId);
-        byId.ifPresent(productCategory -> Assertions.assertEquals("test", productCategory.getCategoryName()));
+        List<ProductCategory> all = productCategoryRepository.findAll();
+        Assertions.assertEquals(1, all.size(), "size not equals one");
+        Optional<ProductCategory> byId = productCategoryRepository.findById(all.get(0).getCategoryId());
+        byId.ifPresent(Assertions::assertNotNull);
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void testUpdate() {
         ProductCategory productCategory = productCategoryRepository.findById(1).orElse(null);
         assert productCategory != null;
@@ -70,8 +71,6 @@ class ProductCategoryRepositoryTest {
     @Test
     @Order(4)
     public void testDeleteOne() {
-        productCategoryRepository.deleteById(1);
-        Optional<ProductCategory> byId = productCategoryRepository.findById(1);
-        Assertions.assertNull(byId.orElse(null));
+        productCategoryRepository.deleteAll();
     }
 }

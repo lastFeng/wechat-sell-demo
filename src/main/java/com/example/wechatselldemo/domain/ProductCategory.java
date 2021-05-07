@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @author : guoweifeng
- * @date : 2021/5/6
+ * @date : 2021/5/7
  * DynamicUpdate: 自动更新
  */
 @Table(name = "product_category")
@@ -25,9 +25,9 @@ public class ProductCategory {
     /** 类目类型 */
     private Integer categoryType;
     /** 创建时间 */
-    private Date createTime;
+    private transient Date createTime;
     /** 更新时间 */
-    private Date updateTime;
+    private transient Date updateTime;
 
     protected ProductCategory() {
     }
