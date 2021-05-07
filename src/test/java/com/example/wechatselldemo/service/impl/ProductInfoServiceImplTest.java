@@ -50,6 +50,7 @@ class ProductInfoServiceImplTest {
     void findByProductStatus() {
         List<ProductInfo> byProductStatus = productInfoService.findByProductStatus(1);
         assertEquals(1, byProductStatus.size(), "size not equals one");
+        System.out.println(byProductStatus);
     }
 
     @Test

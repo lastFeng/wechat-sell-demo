@@ -1,6 +1,7 @@
 package com.example.wechatselldemo.domain.dto;
 
 import com.example.wechatselldemo.domain.OrderDetail;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -38,9 +39,11 @@ public class OrderDTO {
     private Integer payStatus;
 
     /** 创建时间 */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /** 更新时间 */
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /** 订单详情 */

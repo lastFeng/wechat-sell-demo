@@ -42,7 +42,7 @@ class ProductCategoryRepositoryTest {
     @Test
     @Order(2)
     public void testUpdate() {
-        ProductCategory productCategory = productCategoryRepository.findById(1).orElse(null);
+        ProductCategory productCategory = productCategoryRepository.findById(2).orElse(null);
         assert productCategory != null;
         productCategory.setCategoryType(2);
         ProductCategory save = productCategoryRepository.save(productCategory);
