@@ -40,11 +40,11 @@ public class OrderMaster {
 
     /** 订单状态 */
     @Column(columnDefinition = "tinyint(3)")
-    private Integer orderStatus = OrderStatusEnum.NEW.getStatus();
+    private Integer orderStatus = OrderStatusEnum.NEW.getCode();
 
     /** 支付状态 */
     @Column(columnDefinition = "tinyint(3)")
-    private Integer payStatus = PayStatusEnum.WAIT.getStatus();
+    private Integer payStatus = PayStatusEnum.WAIT.getCode();
 
     /** 创建时间 */
     private transient Date createTime;

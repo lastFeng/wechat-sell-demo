@@ -13,11 +13,11 @@ public enum OrderStatusEnum {
     FINISHED(1, "完成"), // 完成订单
     CANCEL(2, "已取消"); // 取消订单
 
-    private Integer status;
+    private Integer code;
     private String message;
 
-    OrderStatusEnum(Integer status, String message) {
-        this.status = status;
+    OrderStatusEnum(Integer code, String message) {
+        this.code = code;
         this.message = message;
     }
 }

@@ -51,6 +51,14 @@ class OrderDetailRepositoryTest {
         assertNotNull(save);
     }
 
+    @Order(2)
+    @Test
+    public void testFindOrderId() {
+        List<OrderDetail> byOrderId = orderDetailRepository.findByOrderId("1");
+        assertNotNull(byOrderId);
+        System.out.println(byOrderId);
+    }
+
     @Order(3)
     @Test
     public void testDelete() {

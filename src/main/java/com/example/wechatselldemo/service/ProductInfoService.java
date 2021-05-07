@@ -1,6 +1,7 @@
 package com.example.wechatselldemo.service;
 
 import com.example.wechatselldemo.domain.ProductInfo;
+import com.example.wechatselldemo.domain.dto.CartDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -53,7 +54,15 @@ public interface ProductInfoService {
      */
     Page<ProductInfo> findByProductStatus(Integer productStatus, Pageable pageable);
 
-    // 加库存 TODO
+    /***
+     * 加库存
+     * @param carts
+     */
+    void increaseStock(List<CartDTO> carts);
 
-    // 减库存 TODO
+    /***
+     * 减库存
+     * @param carts
+     */
+    void decreaseStock(List<CartDTO> carts);
 }

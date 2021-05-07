@@ -40,7 +40,7 @@ public class ProductInfo {
 
     /*** 商品状态 */
     @Column(columnDefinition = "tinyint(3)")
-    private Integer productStatus = ProductStatusEnum.UP.getStatus();
+    private Integer productStatus = ProductStatusEnum.UP.getCode();
 
     /** 类目编号 */
     private Integer productType;
