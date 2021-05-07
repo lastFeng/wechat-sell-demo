@@ -54,7 +54,13 @@ public class BuyerOrderController {
     /**
      * 取消订单
      */
-
+    @PostMapping("/cancel")
+    public ResultVo cancel(@RequestParam("openid") String openId,
+                           @RequestParam("orderId") String orderId) {
+        OrderDTO orderDTO = orderMasterService.findOne(openId, orderId);
+        orderMasterService.cancel(orderDTO);
+        return ResultVoUtils.success();
+    }
 
     /**
      * 订单列表
@@ -76,7 +82,8 @@ public class BuyerOrderController {
      * 订单详情
      */
     @GetMapping("/detail")
-    public ResultVo orderDetails() {
-        return null;
+    public ResultVo orderDetails(@RequestParam("openid") String openId,
+                                 @RequestParam("orderId") String orderId) {
+        return ResultVoUtils.success(orderMasterService.findOne(orderId, orderId));
     }
 }

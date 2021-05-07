@@ -54,7 +54,7 @@ class OrderMasterServiceImplTest {
     @Order(2)
     @Test
     void findOne() {
-        OrderDTO one = orderMasterService.findOne("1620372989529686257");
+        OrderDTO one = orderMasterService.findOne("123456","1620372989529686257");
         assertNotNull(one);
     }
 

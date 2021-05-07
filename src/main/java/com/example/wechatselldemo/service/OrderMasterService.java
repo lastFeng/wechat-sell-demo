@@ -13,7 +13,7 @@ public interface OrderMasterService {
     OrderDTO create(OrderDTO orderDTO);
 
     /***查询订单*/
-    OrderDTO findOne(String orderId);
+    OrderDTO findOne(String openId, String orderId);
 
     /***查询订单*/
     Page<OrderDTO> findList(String buyerOpenid, Pageable pageable);

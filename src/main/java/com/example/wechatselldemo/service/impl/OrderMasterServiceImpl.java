@@ -88,11 +88,16 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     }
 
     @Override
-    public OrderDTO findOne(String orderId) {
+    public OrderDTO findOne(String openId, String orderId) {
         OrderMaster order = orderMasterRepository.findById(orderId).orElse(null);
         if (Objects.isNull(order)) {
-
+            log.error("【订单查找】查询订单不存在， orderId-{}", orderId);
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
+        }
+
+        if (!Objects.equals(openId.toLowerCase(), order.getBuyerOpenid().toLowerCase())) {
+            log.error("【订单查找】查询的订单openId不正确，orderId-{}, openId-{}", orderId, openId);
+            throw new SellException(ResultEnum.OPENID_ERROR);
         }
 
         List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(orderId);
@@ -111,7 +116,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     public Page<OrderDTO> findList(String buyerOpenid, Pageable pageable) {
         Page<OrderMaster> orders = orderMasterRepository.findByBuyerOpenid(buyerOpenid, pageable);
         List<OrderDTO> orderDTOS = OrderMaster2OrderDTOConverter.converterList(orders.getContent());
-        return new PageImpl<OrderDTO>(orderDTOS, orders.getPageable(), orders.getTotalElements());
+        return new PageImpl(orderDTOS, orders.getPageable(), orders.getTotalElements());
 
     }
 
@@ -121,7 +126,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         // 查看订单状态 TODO: 多线程会存在问题
         OrderMaster order = orderMasterRepository.findById(orderDTO.getOrderId()).orElse(null);
         if (Objects.isNull(order)) {
-            log.error("【取消订单】订单不存在，orderId={}", order.getOrderId());
+            log.error("【取消订单】订单不存在，orderId={}", orderDTO.getOrderId());
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
         }
 
@@ -139,10 +144,6 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         }
 
         OrderMaster orderUpdate = orderMasterRepository.save(order);
-        if (Objects.isNull(orderUpdate)) {
-            log.error("【取消订单】订单更新失败，orderId={}", order.getOrderId());
-            throw new SellException(ResultEnum.ORDER_UPDATE_ERROR);
-        }
 
         List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(orderUpdate.getOrderId());
         if (CollectionUtils.isEmpty(orderDetails)) {
@@ -162,7 +163,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     public OrderDTO finish(OrderDTO orderDTO) {
         OrderMaster order = orderMasterRepository.findById(orderDTO.getOrderId()).orElse(null);
         if (Objects.isNull(order)) {
-            log.error("【完成订单】订单不存在，orderId={}", order.getOrderId());
+            log.error("【完成订单】订单不存在，orderId={}", orderDTO.getOrderId());
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
         }
 
@@ -173,11 +174,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         // 更新状态
         order.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
 
-        OrderMaster orderUpdate = orderMasterRepository.save(order);
-        if (Objects.isNull(orderUpdate)) {
-            log.error("【完成订单】订单更新失败，orderId={}", order.getOrderId());
-            throw new SellException(ResultEnum.ORDER_UPDATE_ERROR);
-        }
+        orderMasterRepository.save(order);
         return orderDTO;
     }
 
@@ -186,11 +183,11 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     public OrderDTO paid(OrderDTO orderDTO) {
         OrderMaster order = orderMasterRepository.findById(orderDTO.getOrderId()).orElse(null);
         if (Objects.isNull(order)) {
-            log.error("【支付订单】订单不存在，orderId={}", order.getOrderId());
+            log.error("【支付订单】订单不存在，orderId={}", orderDTO.getOrderId());
             throw new SellException(ResultEnum.ORDER_NOT_EXIST);
         }
 
-        if (!Objects.equals(order.getPayStatus(), PayStatusEnum.WAIT)) {
+        if (!Objects.equals(order.getPayStatus(), PayStatusEnum.WAIT.getCode())) {
             log.error("【支付订单】订单支付状态不正确，orderId={}，payStatus={}", order.getOrderId(), order.getPayStatus());
             throw new SellException(ResultEnum.ORDER_PAID_STATUS_ERROR);
         }
@@ -198,11 +195,7 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         // TODO: 支付(先支付，再修改状态)
 
         order.setPayStatus(PayStatusEnum.SUCCESS.getCode());
-        OrderMaster orderUpdate = orderMasterRepository.save(order);
-        if (Objects.isNull(orderUpdate)) {
-            log.error("【支付订单】订单更新失败，orderId={}", order.getOrderId());
-            throw new SellException(ResultEnum.ORDER_UPDATE_ERROR);
-        }
+        orderMasterRepository.save(order);
         return orderDTO;
     }
 }

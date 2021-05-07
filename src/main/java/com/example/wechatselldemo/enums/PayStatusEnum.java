@@ -9,12 +9,15 @@ import lombok.Getter;
  */
 @Getter
 public enum PayStatusEnum {
-    WAIT(0, "未支付"),  // 等待支付
-    SUCCESS(1, "已支付"), // 支付完成
-    REFUND(2, "已退款"); // 已退款
+    /**等待支付*/
+    WAIT(0, "未支付"),
+    /**支付完成*/
+    SUCCESS(1, "已支付"),
+    /**已退款*/
+    REFUND(2, "已退款");
 
-    private Integer code;
-    private String message;
+    private final Integer code;
+    private final String message;
 
     PayStatusEnum(Integer code, String message) {
         this.code = code;
