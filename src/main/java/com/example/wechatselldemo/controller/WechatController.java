@@ -21,6 +21,6 @@ public class WechatController {
 
     @GetMapping("/authorize")
     public void authorize(@RequestParam("returnUrl") String returnUrl) {
-        wxMpService.
+//        wxMpService.
     }
 }
