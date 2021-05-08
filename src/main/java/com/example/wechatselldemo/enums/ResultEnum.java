@@ -29,7 +29,9 @@ public enum ResultEnum {
     /**参数不正确*/
     PARAM_ERROR(19, "参数不正确"),
     /**OpenId不正确*/
-    OPENID_ERROR(20, "OpenId不正确"),
+    OPENID_ERROR(20, "用户无权限"),
+    /**微信授权失败*/
+    WECHAT_MP_ERROR(21, "微信授权失败"),
     ;
     /**状态码*/
     private final Integer code;
