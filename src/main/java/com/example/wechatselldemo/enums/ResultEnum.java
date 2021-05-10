@@ -32,6 +32,12 @@ public enum ResultEnum {
     OPENID_ERROR(20, "用户无权限"),
     /**微信授权失败*/
     WECHAT_MP_ERROR(21, "微信授权失败"),
+    /**微信统一下单失败*/
+    WECHAT_MP_ORDER_CREATE_ERROR(22, "微信统一下单失败"),
+    /**微信支付状态不正确*/
+    WECHAT_MP_ORDER_PAY_STATUS_ERROR(23, "微信订单支付状态不正确"),
+    /**支付订单金额校验不正确*/
+    WECHAT_MP_ORDER_PAY_FEE_ERROR(24, "微信订单支付金额不正确"),
     ;
     /**状态码*/
     private final Integer code;

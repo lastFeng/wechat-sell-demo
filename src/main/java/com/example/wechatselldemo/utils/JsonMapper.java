@@ -36,6 +36,15 @@ public class JsonMapper {
         mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
+    public String toJson(Object object) {
+        try {
+            return mapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            log.error("write to json error: object-{}, error-{}", object, e);
+            return null;
+        }
+    }
+
     public <T> T fromJson(@Nullable String jsonString, Class<T> clazz) {
         if (StringUtils.isEmpty(jsonString)) {
             return null;

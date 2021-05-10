@@ -192,8 +192,12 @@ public class OrderMasterServiceImpl implements OrderMasterService {
             throw new SellException(ResultEnum.ORDER_PAID_STATUS_ERROR);
         }
 
-        // TODO: 支付(先支付，再修改状态)
-
+        if (Math.abs(orderDTO.getOrderAmount().doubleValue() - order.getOrderAmount().multiply(BigDecimal.valueOf(100)).doubleValue()) > 0) {
+            log.error("【支付订单】订单支付金额校验不正确，orderId-{}, payTotalFee-{}, orderTotalFee-{}",
+                    orderDTO.getOrderId(), orderDTO.getOrderAmount().doubleValue(),
+                    order.getOrderAmount().multiply(BigDecimal.valueOf(100)).doubleValue());
+            throw new SellException(ResultEnum.WECHAT_MP_ORDER_PAY_FEE_ERROR);
+        }
         order.setPayStatus(PayStatusEnum.SUCCESS.getCode());
         orderMasterRepository.save(order);
         return orderDTO;
