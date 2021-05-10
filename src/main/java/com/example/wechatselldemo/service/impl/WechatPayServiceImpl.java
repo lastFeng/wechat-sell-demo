@@ -10,6 +10,7 @@ import com.example.wechatselldemo.utils.KeyUtil;
 import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
+import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderResult;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
@@ -80,5 +81,10 @@ public class WechatPayServiceImpl implements WechatPayService {
 
         orderMasterService.paid(orderDTO);
         return WxPayNotifyResponse.successResp("OK");
+    }
+
+    @Override
+    public void refund(WxPayRefundRequest request) {
+
     }
 }
