@@ -121,8 +121,8 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     @Override
     public Page<OrderDTO> findList(String buyerOpenid, Pageable pageable) {
         Page<OrderMaster> orders = orderMasterRepository.findByBuyerOpenid(buyerOpenid, pageable);
-        List<OrderDTO> orderDTOS = OrderMaster2OrderDTOConverter.converterList(orders.getContent());
-        return new PageImpl(orderDTOS, orders.getPageable(), orders.getTotalElements());
+        return new PageImpl<OrderDTO>(OrderMaster2OrderDTOConverter.converterList(orders.getContent()),
+                orders.getPageable(), orders.getTotalElements());
 
     }
 
@@ -214,5 +214,12 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         order.setPayStatus(PayStatusEnum.SUCCESS.getCode());
         orderMasterRepository.save(order);
         return orderDTO;
+    }
+
+    @Override
+    public Page<OrderDTO> findList(Pageable pageable) {
+        Page<OrderMaster> orders = orderMasterRepository.findAll(pageable);
+        return new PageImpl<OrderDTO>(OrderMaster2OrderDTOConverter.converterList(orders.getContent()),
+                orders.getPageable(), orders.getTotalElements());
     }
 }
