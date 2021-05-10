@@ -12,6 +12,7 @@ import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
+import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
 import com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderResult;
 import com.github.binarywang.wxpay.constant.WxPayConstants;
 import com.github.binarywang.wxpay.exception.WxPayException;
@@ -84,7 +85,12 @@ public class WechatPayServiceImpl implements WechatPayService {
     }
 
     @Override
-    public void refund(WxPayRefundRequest request) {
-
+    public WxPayRefundResult refund(WxPayRefundRequest request) {
+        try {
+            return payService.refund(request);
+        } catch (WxPayException e) {
+            log.error("【微信支付】微信退款失败，orderId-{}， errorMsg-{}", request.getOutTradeNo(), e.getReturnMsg());
+            throw new SellException(ResultEnum.WECHAT_MP_ORDER_REFUND_ERROR);
+        }
     }
 }

@@ -13,8 +13,11 @@ import com.example.wechatselldemo.enums.ResultEnum;
 import com.example.wechatselldemo.exception.SellException;
 import com.example.wechatselldemo.service.OrderMasterService;
 import com.example.wechatselldemo.service.ProductInfoService;
+import com.example.wechatselldemo.service.WechatPayService;
 import com.example.wechatselldemo.utils.KeyUtil;
 import com.example.wechatselldemo.utils.OrderMaster2OrderDTOConverter;
+import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
+import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,9 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 
     @Autowired
     private ProductInfoService productInfoService;
+
+    @Autowired
+    private WechatPayService wechatPayService;
 
     @Override
     @Transactional
@@ -139,7 +145,14 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 
         // 退款
         if (Objects.equals(order.getPayStatus(), PayStatusEnum.SUCCESS.getCode())) {
-            // TODO: 退款操作
+            WxPayRefundRequest request = WxPayRefundRequest.newBuilder()
+                    .outTradeNo(order.getOrderId())
+                    .outTradeNo(order.getOrderId())
+                    .totalFee(order.getOrderAmount().multiply(BigDecimal.valueOf(100)).intValue())
+                    // TODO: 这里需要设置为商户APP_ID
+                    .opUserId("test")
+                    .build();
+            wechatPayService.refund(request);
             order.setPayStatus(PayStatusEnum.REFUND.getCode());
         }
 

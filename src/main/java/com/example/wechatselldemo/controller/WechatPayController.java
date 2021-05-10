@@ -70,7 +70,7 @@ public class WechatPayController {
     @ResponseBody
     public String refund(String body) {
         OrderDTO order = mapper.fromJson(body, OrderDTO.class);
-        // TODO 退款
+        orderService.cancel(order);
         return "success";
     }
 }

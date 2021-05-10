@@ -4,6 +4,7 @@ import com.example.wechatselldemo.domain.dto.OrderDTO;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxPayRefundRequest;
+import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
 
 /**
  * @author : guoweifeng
@@ -23,5 +24,5 @@ public interface WechatPayService {
     String pay(WxPayOrderNotifyResult notifyResult);
 
     /**订单退款*/
-    void refund(WxPayRefundRequest request);
+    WxPayRefundResult refund(WxPayRefundRequest request);
 }
