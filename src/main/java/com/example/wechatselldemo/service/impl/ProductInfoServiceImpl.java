@@ -3,6 +3,7 @@ package com.example.wechatselldemo.service.impl;
 import com.example.wechatselldemo.dao.ProductInfoRepository;
 import com.example.wechatselldemo.domain.ProductInfo;
 import com.example.wechatselldemo.domain.dto.CartDTO;
+import com.example.wechatselldemo.enums.ProductStatusEnum;
 import com.example.wechatselldemo.enums.ResultEnum;
 import com.example.wechatselldemo.exception.SellException;
 import com.example.wechatselldemo.service.ProductInfoService;
@@ -97,5 +98,23 @@ public class ProductInfoServiceImpl implements ProductInfoService {
             log.info("扣减库存成功：商品id-{}，扣减数量-{}， 剩余数量-{}", product.getProductId(),
                     cart.getProductQuantity(), product.getProductStock());
         }
+    }
+
+    @Override
+    @Transactional
+    public void downProduct(String productId) {
+        ProductInfo product = productInfoRepository.findById(productId).orElse(null);
+        if (Objects.isNull(product)) {
+            log.error("【商品下架】商品下架失败，商品不存在，productId-{}", productId);
+            throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+        }
+
+        if (Objects.equals(product.getProductStatus(), ProductStatusEnum.DOWN.getCode())) {
+            log.error("【商品下架】商品下架失败，商品状态不正确");
+            throw new SellException(ResultEnum.PRODUCT_STATUS_ERROR);
+        }
+
+        product.setProductStatus(ProductStatusEnum.DOWN.getCode());
+        productInfoRepository.save(product);
     }
 }

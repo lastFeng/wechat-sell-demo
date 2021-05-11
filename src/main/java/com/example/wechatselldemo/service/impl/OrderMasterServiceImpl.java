@@ -222,4 +222,24 @@ public class OrderMasterServiceImpl implements OrderMasterService {
         return new PageImpl<OrderDTO>(OrderMaster2OrderDTOConverter.converterList(orders.getContent()),
                 orders.getPageable(), orders.getTotalElements());
     }
+
+    @Override
+    public OrderDTO findOne(String orderId) {
+        OrderMaster order = orderMasterRepository.findById(orderId).orElse(null);
+        if (Objects.isNull(order)) {
+            log.error("【订单查找】查询订单不存在， orderId-{}", orderId);
+            throw new SellException(ResultEnum.ORDER_NOT_EXIST);
+        }
+
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrderId(orderId);
+        if (CollectionUtils.isEmpty(orderDetails)) {
+            throw new SellException(ResultEnum.ORDER_DETAIL_NOT_EXIST);
+        }
+
+        OrderDTO orderDTO = new OrderDTO();
+        BeanUtils.copyProperties(order, orderDTO);
+        orderDTO.setOrderDetailList(orderDetails);
+
+        return orderDTO;
+    }
 }

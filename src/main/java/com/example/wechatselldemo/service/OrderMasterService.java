@@ -29,4 +29,7 @@ public interface OrderMasterService {
 
     /***查询所有订单**/
     Page<OrderDTO> findList(Pageable pageable);
+
+    /***查询订单*/
+    OrderDTO findOne(String orderId);
 }

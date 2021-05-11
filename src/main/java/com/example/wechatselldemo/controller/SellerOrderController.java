@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @date : 2021/5/10
  */
 @Controller
-@RequestMapping("/seller/order")
+@RequestMapping("/sell/seller/order")
 public class SellerOrderController {
 
     @Autowired
@@ -41,5 +41,11 @@ public class SellerOrderController {
         orderDTO.setOrderId(orderId);
         orderMasterService.cancel(orderDTO);
         return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @GetMapping("/detail/{orderId}")
+    @ResponseBody
+    public ResponseEntity<OrderDTO> queryByOrderId(@PathVariable("orderId") String orderId) {
+        return new ResponseEntity<>(orderMasterService.findOne(orderId), HttpStatus.OK);
     }
 }
